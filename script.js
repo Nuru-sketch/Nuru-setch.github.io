@@ -21,7 +21,7 @@ function intentar() {
     }
 
     const GRID = document.getElementById("grid");
-    const ROW = document.getElementsByClassName("row");
+    const ROW = document.createElement("row");
 //No necesito row.classname pq la linea de arriba ya obtiene el input con una clase row.
     for (let i in palabra) {
         const SPAN = document.createElement("span");
