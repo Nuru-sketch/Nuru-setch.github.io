@@ -1,40 +1,69 @@
-<!DOCTYPE html>
-<html>
+let intentos = 6;
+let diccionario = ["PERRO","CIELO",
+    "COCHE", "FRUTA", "PIANO", "NIEVE",
+    "LIBRO", "AMIGO", "REINA", "PLUMA", "FUEGO",
+    "LLAVE", "PANAL", "PLATO", "ARBOL", "VERDE",
+    "CALLE", "DULCE", "FLACO", "TRAJE", "PUNTO",
+    "PLAYA", "DONDE", "LENTO", "SIGLO", "PODER",
+    "VACIO", "HECHO", "LETRA", "GRITO", "NEGRO",
+    "BUENO", "HUEVO", "GORDO",  "AVION",
+    "CARTA", "VIENTO", "LUCHA", "LINDO", "PASTA",
+    "PARAR", "OJOS", "TIGRE", "NUNCA", ]
+    
+const palabra = diccionario[Math.floor(Math.random() * diccionario.length)];
 
-<head>
-    <title>Wordle PPY</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="script.js" defer></script>
-</head>
+function leerintento() {
+    let intentos = document.getElementById("guess-input");
+    intentos = intentos.value;
+    intentos = intentos.toUpperCase();
+    return intentos
+}
+const button = document.getElementById("guess-button");
+button.addEventListener('click', intentar);
 
-<body>
-    <h1>Wordle PPY</h1>
-    <input type="text" id="guess-input">
-    <button id="guess-button">Intentar</button>
-    <div id="grid"></div>
-    <p id="guesses"></p>
-    <main>
-        <div id='grid'>
-            <!-- PRIMER INTENTO -->
-            <div class='row'>
-                <span class='letter'></span>
-                <span class='letter'></span>
-                <span class='letter'></span>
-                <span class='letter'></span>
-                <span class='letter'></span>
-            </div>
+function intentar() {
+    const INTENTO = leerintento();
 
-            <!-- SEGUNDO INTENTO -->
-            <div class='row'>
-                <span class='letter'></span>
-                <span class='letter'></span>
-                <span class='letter'></span>
-                <span class='letter'></span>
-                <span class='letter'></span>
-            </div>
+  
 
-        </div>
-    </main>
-</body>
+    const GRID = document.getElementById("grid");
+    const ROW = document.createElement("div");
+    ROW.className = 'row';
+    //No necesito row.classname pq la linea de arriba ya obtiene el input con una clase row.
+    for (let i in palabra) {
+        const SPAN = document.createElement("span");
+        SPAN.className = 'letter';
+        if (INTENTO[i] === palabra[i]) {
+            SPAN.innerHTML = INTENTO[i];
+            SPAN.style.backgroundColor = '#79b851';
+        } else if (palabra.includes(INTENTO[i])) {
+            SPAN.innerHTML = INTENTO[i];
+            SPAN.style.backgroundColor = '#f3c237'
+        } else {
+            SPAN.innerHTML = INTENTO[i];
+            SPAN.style.backgroundColor = '#a4aec4';
+        }
+        ROW.appendChild(SPAN);
+    } 
+   
+    intentos--
+    console.log(intentos);
+    if (intentos == 0) {
+        terminar("<h1>PERDISTE!</h1>");
 
-</html>
+    }
+     
+    GRID.appendChild(ROW);
+ if (INTENTO === palabra) {
+        terminar("<h1>GANASTE!</h1>")
+        return
+    }
+
+}
+function terminar(mensaje) {
+    const INPUT = document.getElementById("guess-input")
+    INPUT.disabled = true;
+    button.disabled = true;
+    let contenedor = document.getElementById("guesses");
+    contenedor.innerHTML = mensaje;
+}
