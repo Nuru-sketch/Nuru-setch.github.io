@@ -1,6 +1,16 @@
-const intentos = 6;
-let palabra = "APPLE";
-
+let intentos = 6;
+let diccionario = ["PERRO","CIELO",
+    "COCHE", "FRUTA", "PIANO", "NIEVE",
+    "LIBRO", "AMIGO", "REINA", "PLUMA", "FUEGO",
+    "LLAVE", "PANAL", "PLATO", "ARBOL", "VERDE",
+    "CALLE", "DULCE", "FLACO", "TRAJE", "PUNTO",
+    "PLAYA", "DONDE", "LENTO", "SIGLO", "PODER",
+    "VACIO", "HECHO", "LETRA", "GRITO", "NEGRO",
+    "BUENO", "HUEVO", "GORDO",  "AVION",
+    "CARTA", "VIENTO", "LUCHA", "LINDO", "PASTA",
+    "PARAR", "OJOS", "TIGRE", "NUNCA", ]
+    
+const palabra = diccionario[Math.floor(Math.random() * diccionario.length)];
 
 function leerintento() {
     let intentos = document.getElementById("guess-input");
@@ -8,21 +18,18 @@ function leerintento() {
     intentos = intentos.toUpperCase();
     return intentos
 }
-
 const button = document.getElementById("guess-button");
 button.addEventListener('click', intentar);
 
 function intentar() {
     const INTENTO = leerintento();
 
-    if (INTENTO === palabra) {
-        terminar("<h1>GANASTE!😀</h1>")
-        return
-    }
+  
 
     const GRID = document.getElementById("grid");
-    const ROW = document.createElement("row");
-//No necesito row.classname pq la linea de arriba ya obtiene el input con una clase row.
+    const ROW = document.createElement("div");
+    ROW.className = 'row';
+    //No necesito row.classname pq la linea de arriba ya obtiene el input con una clase row.
     for (let i in palabra) {
         const SPAN = document.createElement("span");
         SPAN.className = 'letter';
@@ -34,23 +41,29 @@ function intentar() {
             SPAN.style.backgroundColor = '#f3c237'
         } else {
             SPAN.innerHTML = INTENTO[i];
-            SPAN.style.backgroundColor = 'grey';
+            SPAN.style.backgroundColor = '#a4aec4';
         }
         ROW.appendChild(SPAN);
-    }
-    GRID.appendChild(ROW);
-
+    } 
+   
     intentos--
+    console.log(intentos);
     if (intentos == 0) {
-        terminar("<h1>PERDISTE!😖</h1>")
+        terminar("<h1>PERDISTE!</h1>");
 
     }
+     
+    GRID.appendChild(ROW);
+ if (INTENTO === palabra) {
+        terminar("<h1>GANASTE!</h1>")
+        return
+    }
+
 }
 function terminar(mensaje) {
     const INPUT = document.getElementById("guess-input")
     INPUT.disabled = true;
-    const BOTON = document.getElementById("guess-button");
-    BOTON.disabled = true;
+    button.disabled = true;
     let contenedor = document.getElementById("guesses");
     contenedor.innerHTML = mensaje;
 }
